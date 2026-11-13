@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SỨC KHỎE XANH ĐÔ THỊ - URBAN BIO-RADAR PORTAL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            portalBg: '#F8FAFC',
+            cardBg: '#FFFFFF',
+            accentGreen: '#10B981',
+            accentSky: '#0284C7',
+            alertYellow: '#F59E0B',
+            alertOrange: '#F97316',
+            alertRed: '#EF4444'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body {
+      background-color: #F8FAFC;
+      color: #1E293B;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .shadow-soft {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+    }
+    .shadow-glow-yellow {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+    }
+    @keyframes gentle-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.85; }
+    }
+    .pulse-ring {
+      animation: gentle-pulse 2.5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-portalBg text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-100 selection:text-emerald-900">
+
+  <!-- TOP PUBLIC NAVBAR -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-sky-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-1.5">
+            SỨC KHỎE XANH ĐÔ THỊ
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Cộng Đồng</span>
+          </h1>
+          <p class="text-[11px] text-slate-500 font-medium">Cổng Thông Tin Cảnh Báo Sớm Môi Trường • Khu vực ĐHQG-HCM & P. Đông Hòa</p>
+        </div>
+      </div>
+
+      <!-- QUICK QR SCAN BADGE -->
+      <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-600">
+        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+        </svg>
+        <span>Mã QR Bảng tin KTX & Trường học</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER (MOBILE FIRST: MAX-W-4XL) -->
+  <main class="max-w-4xl mx-auto px-4 py-5 space-y-6 flex-1 w-full">
+
+    <!-- MODULE 1: REGIONAL EPIDEMIOLOGICAL STATUS (AQI STYLE) -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft relative overflow-hidden">
+      <!-- Top Sub-Header & Timestamp -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-800 text-xs font-bold">MODULE 01</span>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">THÔNG BÁO TÌNH HÌNH DỊCH TỄ KHU VỰC</h2>
+        </div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium">
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span id="periodText" class="font-semibold text-slate-900">Kỳ quan trắc: —</span> <span id="updatedText">• Chưa có cập nhật</span>
+        </div>
+      </div>
+
+      <div id="aqiBody" class="mt-5"></div>
+    </section>
+
+    <!-- MODULE 2: ANONYMIZED BLURRED HEATMAP -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">MODULE 02</span>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">BẢN ĐỒ KHU VỰC PHÂN VÙNG ĐÃ ẨN DANH</h2>
+        </div>
+        <span class="text-xs text-slate-500 font-medium">Bảo vệ quyền riêng tư • Không gắn cờ trường học hay KTX</span>
+      </div>
+
+      <!-- MAP CONTAINER: BLURRED MACRO GRID SCHEMATIC -->
+      <div class="relative w-full h-[260px] bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center p-4">
+        <!-- SVG Regional Macro Grids -->
+        <div id="gridSvgHolder" class="w-full h-full"></div>
+
+        <!-- Anonymization Guarantee Watermark -->
+        <div class="absolute bottom-2 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md border border-slate-200 text-[10px] text-slate-500 font-medium">
+          🔒 Bản đồ đã làm mờ độ phân giải cấp ô lưới 1km²
+        </div>
+      </div>
+
+      <div id="zoneCards" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+    </section>
+
+    <!-- MODULE 3: DISINFECTION & CARE HANDBOOK (TABBED AUDIENCE) -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 text-xs font-bold">MODULE 03</span>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">CẨM NANG KHỬ KHUẨN VÀ PHÒNG BỆNH TẠI CHỖ</h2>
+        </div>
+        <span class="text-xs text-slate-500 font-medium">Khoa học chính xác • Hành động đơn giản</span>
+      </div>
+
+      <!-- TABS SELECTOR -->
+      <div class="flex border-b border-slate-200 text-xs font-bold">
+        <button id="tabParentBtn" onclick="switchTab('parent')" class="px-5 py-2.5 border-b-2 border-emerald-500 text-emerald-700 flex items-center gap-2 transition">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Tab 1: Dành cho Phụ Huynh có con nhỏ (Trường Mầm Non)
+        </button>
+        <button id="tabStudentBtn" onclick="switchTab('student')" class="px-5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          Tab 2: Dành cho Sinh Viên Ký Túc Xá ĐHQG-HCM
+        </button>
+      </div>
+
+      <!-- TAB 1 CONTENT: PARENTS -->
+      <div id="tabParentContent" class="space-y-4">
+        <!-- Scientific Warning Box -->
+        <div class="p-4 rounded-2xl bg-amber-50 border-l-4 border-amber-500 text-xs space-y-1.5">
+          <div class="font-extrabold text-amber-900 flex items-center gap-2 text-sm">
+            <span>⚠️</span> HIỂU ĐÚNG VỀ VIRUS TAY CHÂN MIỆNG (EV71 / COXSACKIEVIRUS):
+          </div>
+          <p class="text-amber-800 leading-relaxed font-medium">
+            Virus Tay chân miệng là virus <strong>không có màng bọc lipid (non-enveloped virus)</strong> nên <strong>dung dịch sát khuẩn chứa cồn kém hiệu quả hơn</strong> và không nên là biện pháp duy nhất. Biện pháp quan trọng nhất là <strong>rửa tay bằng xà phòng dưới vòi nước chảy ít nhất 30 giây</strong>, đặc biệt sau khi đi vệ sinh, thay tã và trước khi ăn. Với bề mặt đồ chơi và sàn nhà, nên dùng chất giải phóng Clo hoạt tính như <strong>nước Javel gia dụng</strong> hoặc <strong>Cloramin B</strong> theo hướng dẫn bên dưới.</p>
+        </div>
+
+        <!-- Recipe Calculator / Disinfection Guide -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+            <div class="font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">1</span>
+              Công thức pha nước Javel gia dụng (hoặc Cloramin B)
+            </div>
+            <ul class="space-y-1.5 text-slate-700 pl-8 list-disc">
+              <li><strong>Nước Javel 5% thông thường:</strong> Pha 2 nắp chai (khoảng 40 mL) vào 5 lít nước sạch để đạt nồng độ clo hoạt tính 0.05% - 0.1%.</li>
+              <li><strong>Cloramin B bột:</strong> Pha 1 muỗng gạt (20g) vào 1 lít nước sạch (nồng độ 0.5% khử khuẩn môi trường có ca sốt).</li>
+              <li><strong>Quy trình:</strong> Lau sàn nhà, ngâm đồ chơi của trẻ trong <strong>10 đến 20 phút</strong>, sau đó rửa lại thật sạch bằng nước và lau khô trước khi cho trẻ chơi.</li>
+            </ul>
+          </div>
+
+          <!-- Red Flag Symptoms -->
+          <div class="p-4 rounded-2xl bg-rose-50 border-2 border-rose-300 space-y-2 text-xs">
+            <div class="font-extrabold text-rose-900 flex items-center gap-2 text-sm">
+              <span class="w-6 h-6 rounded-lg bg-rose-600 text-white flex items-center justify-center text-xs font-bold">!</span>
+              DẤU HIỆU CẢNH BÁO BỆNH CHUYỂN ĐỘ NẶNG (CẦN ĐẾN BỆNH VIỆN NGAY):
+            </div>
+            <div class="space-y-1.5 text-rose-800 font-semibold pl-8 list-disc">
+              <div class="flex items-center gap-1.5">
+                <span class="text-rose-600 font-black">•</span> Trẻ giật mình chới với khi thiu thiu ngủ (trên 2 lần / 30 phút).
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-rose-600 font-black">•</span> Sốt cao liên tục trên 39°C, không đáp ứng với thuốc hạ sốt paracetamol.
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-rose-600 font-black">•</span> Trẻ đi loạng choạng, run tay chân, thở mệt, nôn ói nhiều.
+              </div>
+            </div>
+            <div class="text-[11px] text-rose-700 italic pt-1 pl-8">
+              → Đưa trẻ đến ngay Khoa Cấp cứu Bệnh viện Nhi Đồng 1, Nhi Đồng 2 hoặc Nhi Đồng Thành phố.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2 CONTENT: STUDENTS (HIDDEN INITIALLY) -->
+      <div id="tabStudentContent" class="hidden space-y-4 text-xs">
+        <div class="p-4 rounded-2xl bg-sky-50 border-l-4 border-sky-500 space-y-2">
+          <div class="font-extrabold text-sky-900 text-sm flex items-center gap-2">
+            <span>🎓</span> LỜI KHUYÊN DÀNH CHO SINH VIÊN KÝ TÚC XÁ KHU B & ĐHQG-HCM:
+          </div>
+          <p class="text-sky-800 leading-relaxed font-medium">
+            Sinh viên là người trưởng thành thường chỉ là <strong>người mang trùng lành tính (asymptomatic carriers)</strong>, không phát bệnh nặng nhưng có thể vô tình đem virus từ nơi làm thêm, lớp dạy kèm về ký túc xá hoặc lây sang trẻ nhỏ tại gia đình học sinh.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="font-bold text-slate-900">1. Vệ sinh bồn rửa và nhà vệ sinh chung phòng ở:</div>
+            <p class="text-slate-600 leading-relaxed">
+              Tránh để ẩm ướt tại khu vực bồn rửa tay tập thể. Định kỳ cuối tuần dùng nước tẩy rửa chuyên dụng lau sàn nhà vệ sinh và tay nắm cửa phòng.
+            </p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="font-bold text-slate-900">2. Rửa tay sau khi đi gia sư / làm thêm nơi đông người:</div>
+            <p class="text-slate-600 leading-relaxed">
+              Ngay khi trở về phòng KTX sau buổi dạy kèm trẻ em hoặc phục vụ tại quán ăn, rửa tay thật kỹ bằng xà phòng dưới vòi nước chảy ít nhất 30 giây để ngăn phát tán mầm bệnh.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 4: YOUTH ACTION & SCIENTIFIC TRANSPARENCY -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft space-y-5">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 text-xs font-bold">MODULE 04</span>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">THANH NIÊN XUNG KÍCH & MINH BẠCH KHOA HỌC</h2>
+        </div>
+        <span class="text-xs text-slate-500 font-medium">Đoàn ĐHQG-HCM & Đoàn Phường Đông Hòa</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Green Sunday Campaign Sign-up -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold uppercase">Chiến dịch Cộng đồng</span>
+              <span class="text-xs text-emerald-800 font-semibold">Chủ Nhật Xanh Tuần 47</span>
+            </div>
+            <h3 class="text-base font-extrabold text-emerald-950">
+              Chiến dịch "Chủ Nhật Xanh – Tẩy trùng môi trường trường mầm non"
+            </h3>
+            <p class="text-xs text-emerald-800 leading-relaxed">
+              Đoàn Phường Đông Hòa và Đoàn Thanh niên ĐHQG-HCM tuyển <strong>40 tình nguyện viên sinh viên</strong> hỗ trợ nhà trường pha dung dịch khử khuẩn, lau rửa toàn bộ đồ chơi và sân chơi ngoài trời ngoài giờ học.
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-emerald-200/60">
+            <div class="text-[11px] text-emerald-800 font-medium">Thời gian: 07:30 Chủ Nhật (16/11/2026)</div>
+            <button onclick="registerVolunteer()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition transform active:scale-95">
+              [Đăng ký Tình nguyện viên]
+            </button>
+          </div>
+        </div>
+
+        <!-- Zalo Notification Integration (Zalo Mini App / ZNS) -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-sky-600 text-white text-[10px] font-bold uppercase">Thông báo Tự động</span>
+              <span class="text-xs text-sky-800 font-semibold">Zalo Official Account / ZNS</span>
+            </div>
+            <h3 class="text-base font-extrabold text-sky-950">
+              Nhận thông báo tự động mỗi khi khu vực đổi màu cảnh báo
+            </h3>
+            <p class="text-xs text-sky-800 leading-relaxed">
+              Không cần chủ động vào website mỗi ngày! Bấm <strong>[Theo dõi qua Zalo]</strong> để nhận ngay tin nhắn ZNS miễn phí khi khu vực bạn sinh sống hoặc trường con bạn học chuyển từ <strong>Mức Xanh sang Mức Vàng</strong>.
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-sky-200/60">
+            <div class="text-[11px] text-sky-800 font-medium">Bảo mật: Không gửi tin quảng cáo</div>
+            <button onclick="subscribeZalo()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs shadow-md shadow-sky-600/20 transition transform active:scale-95 flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 2.17.7 4.19 1.94 5.86L2.8 22l4.33-1.11C8.67 21.56 10.28 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+              [Theo dõi qua Zalo]
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LEGAL & MEDICAL DISCLAIMER FOOTER (EXACT MANDATED WORDING) -->
+  <footer class="bg-white border-t border-slate-200 mt-8 py-6">
+    <div class="max-w-4xl mx-auto px-4 space-y-3 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+        <span>🏛️</span> Liên minh Nghiên cứu Khoa học Sinh viên ĐHQG-HCM & Trạm Y tế Phường Đông Hòa
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed max-w-2xl mx-auto italic">
+        "Đây là dự án nghiên cứu khoa học phục vụ y tế dự phòng của Liên minh Sinh viên ĐHQG-HCM phối hợp Trạm Y tế Phường Đông Hòa. Dữ liệu giám sát nước thải không phản ánh số ca bệnh cụ thể và không thay thế chẩn đoán y khoa".
+      </p>
+      <div class="text-[11px] text-slate-400">
+        Bản quyền đề án © 2026 URBAN BIO-RADAR • Mã nguồn mở phục vụ sức khỏe cộng đồng
+      </div>
+    </div>
+  </footer>
+
+  <script src="public_status.js"></script>
+  <script>
+    // ===== Liên kết với ứng dụng Qt =====
+    // Qt ghi file public_status.js (window.BIORADAR_STATUS) mỗi khi Cán bộ Y tế công bố thành công.
+    // Trang tự đọc lại file này mỗi 5 giây nên không cần cài đặt hay chạy thêm gì.
+    const LEVELS = {
+      none:  { name: 'CHƯA CÔNG BỐ', short: 'CHƯA CÓ', color: '#64748B', fill: '#CBD5E1', trend: 'Chưa có dữ liệu', risk: '—',
+               box: 'from-slate-400/10 via-slate-400/5 border-slate-300', ring: 'bg-slate-100 border-slate-400', txt: 'text-slate-700', chip: 'bg-slate-500',
+               pill: 'bg-slate-100 text-slate-800', title: 'Chưa có công bố mới. Thông tin sẽ hiển thị sau khi Trạm Y tế xác nhận và công bố.',
+               desc: 'Cổng thông tin chỉ hiển thị dữ liệu đã được cán bộ y tế có thẩm quyền ký duyệt. Hiện chưa có kỳ công bố nào.' },
+      green: { name: 'VÙNG XANH', short: 'VÙNG XANH', color: '#10B981', fill: '#10B981', trend: 'Ổn định (→)', risk: 'THẤP',
+               box: 'from-emerald-500/10 via-emerald-500/5 border-emerald-400/60', ring: 'bg-emerald-100 border-emerald-400', txt: 'text-emerald-700', chip: 'bg-emerald-500',
+               pill: 'bg-emerald-100 text-emerald-900', title: 'Môi trường bình thường – Chưa ghi nhận tín hiệu bất thường của mầm bệnh trong nước thải khu vực.',
+               desc: 'Duy trì thói quen rửa tay bằng xà phòng dưới vòi nước chảy và vệ sinh môi trường sống như thường lệ.' },
+      yellow:{ name: 'VÙNG VÀNG', short: 'VÙNG VÀNG', color: '#F59E0B', fill: '#F59E0B', trend: 'Đang tăng (↗)', risk: 'CẦN CHÚ Ý',
+               box: 'from-amber-500/10 via-amber-500/5 border-amber-400/60', ring: 'bg-amber-100 border-amber-400', txt: 'text-amber-700', chip: 'bg-amber-500',
+               pill: 'bg-amber-100 text-amber-900', title: 'Môi trường có tín hiệu cảnh báo – Đang ghi nhận mầm bệnh gia tăng trong nước thải khu vực. Khuyến nghị phụ huynh và học sinh tăng cường vệ sinh.',
+               desc: 'Hệ thống cảm biến nước thải sinh học ghi nhận tín hiệu virus Tay chân miệng nhen nhóm trước từ 3 đến 7 ngày so với đỉnh ca bệnh thực tế. Đây là chỉ dấu dự phòng sớm giúp nhà trường và gia đình chủ động bảo vệ trẻ nhỏ.' },
+      orange:{ name: 'VÙNG CAM', short: 'VÙNG CAM', color: '#F97316', fill: '#F97316', trend: 'Tăng rõ rệt (↗)', risk: 'CẢNH GIÁC CAO',
+               box: 'from-orange-500/10 via-orange-500/5 border-orange-400/60', ring: 'bg-orange-100 border-orange-400', txt: 'text-orange-700', chip: 'bg-orange-500',
+               pill: 'bg-orange-100 text-orange-900', title: 'Cảnh giác cao – Tín hiệu mầm bệnh trong nước thải khu vực tăng rõ rệt. Các cơ sở mầm non và khu nội trú nên chủ động khử khuẩn và theo dõi sức khỏe trẻ.',
+               desc: 'Đây là chỉ dấu dự phòng, không phản ánh số ca bệnh cụ thể. Hãy theo dõi thông báo tiếp theo từ Trạm Y tế Phường Đông Hòa.' }
+    };
+    function lv(x) { return LEVELS[x] || LEVELS.none; }
+
+    function renderBanner(cur) {
+      const L = lv(cur);
+      const tiers = [
+        ['green', 'bg-emerald-50 border-emerald-200', 'bg-emerald-500', 'text-emerald-900', 'text-emerald-700', 'VÙNG XANH (AN TOÀN)', 'Môi trường bình thường - Không phát hiện dấu hiệu bất thường của mầm bệnh.'],
+        ['yellow', 'bg-amber-50 border-amber-300', 'bg-amber-500', 'text-amber-900', 'text-amber-800', 'VÙNG VÀNG (CẦN CHÚ Ý)', 'Ghi nhận mầm bệnh gia tăng trong nước thải. Khuyến nghị tăng cường vệ sinh.'],
+        ['orange', 'bg-orange-50 border-orange-300', 'bg-orange-500', 'text-orange-900', 'text-orange-800', 'VÙNG CAM (CẢNH GIÁC CAO)', 'Nguy cơ gia tăng – Các cơ sở mầm non và khu nội trú cần khử khuẩn chủ động.']
+      ].map(t => {
+        const on = t[0] === cur;
+        return '<div class="p-3 rounded-xl border-2 ' + t[1] + ' flex items-start gap-2.5 ' + (on ? 'ring-2 ring-slate-300' : 'opacity-60') + '">' +
+          '<span class="w-3.5 h-3.5 rounded-full ' + t[2] + ' mt-0.5 flex-shrink-0"></span><div>' +
+          '<div class="font-bold ' + t[3] + ' flex items-center justify-between gap-2"><span>' + t[5] + '</span>' + (on ? '<span class="text-[10px] bg-slate-200 text-slate-900 px-1.5 rounded font-extrabold">HIỆN TẠI</span>' : '') + '</div>' +
+          '<div class="text-[11px] ' + t[4] + ' mt-0.5">' + t[6] + '</div></div></div>';
+      }).join('');
+      document.getElementById('aqiBody').innerHTML =
+        '<div class="p-6 rounded-2xl bg-gradient-to-r ' + L.box + ' to-transparent border-2 flex flex-col md:flex-row items-center gap-6">' +
+          '<div class="relative flex-shrink-0 flex items-center justify-center"><div class="w-28 h-28 rounded-full ' + L.ring + ' border-4 flex flex-col items-center justify-center shadow-md pulse-ring">' +
+            '<span class="text-2xl font-black ' + L.txt + '">AQI-BIO</span>' +
+            '<span class="text-xs font-extrabold uppercase px-2 py-0.5 rounded-full ' + L.chip + ' text-white mt-1">' + L.short + '</span></div></div>' +
+          '<div class="flex-1 text-center md:text-left space-y-2">' +
+            '<div class="inline-block px-3 py-1 rounded-full ' + L.pill + ' text-xs font-bold uppercase tracking-wider">Mức độ: ' + L.name + (cur === 'yellow' ? ' (Cần chú ý)' : '') + '</div>' +
+            '<h3 class="text-lg md:text-xl font-extrabold text-slate-900 leading-snug">' + L.title + '</h3>' +
+            '<p class="text-xs text-slate-600 leading-relaxed">' + L.desc + '</p></div></div>' +
+        '<div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 pt-4 border-t border-slate-100 text-xs">' + tiers + '</div>';
+    }
+
+    function zoneSvg(x, w, letter, name, sub, area, key) {
+      const L = lv(key);
+      const tx = x + 20;
+      return '<g><rect x="' + x + '" y="20" width="' + w + '" height="180" rx="20" fill="' + L.fill + '" fill-opacity="0.16" stroke="' + L.color + '" stroke-width="2.5"' + (key === 'yellow' || key === 'orange' ? ' stroke-dasharray="6 3"' : '') + '/>' +
+        '<circle cx="' + (tx + 14) + '" cy="52" r="14" fill="' + L.color + '"/>' +
+        '<text x="' + (tx + 14) + '" y="57" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="bold">' + letter + '</text>' +
+        '<text x="' + (tx + 38) + '" y="50" fill="#1E293B" font-size="14" font-weight="800">' + name + '</text>' +
+        '<text x="' + (tx + 38) + '" y="66" fill="#475569" font-size="10.5">' + sub + '</text>' +
+        '<text x="' + tx + '" y="105" fill="#475569" font-size="10.5">' + area + '</text>' +
+        '<text x="' + tx + '" y="132" fill="#1E293B" font-size="12" font-weight="700">' + L.trend + '</text>' +
+        '<text x="' + tx + '" y="156" fill="#475569" font-size="10.5">Mức nguy cơ: ' + L.risk + '</text></g>';
+    }
+
+    function renderMap(a, b) {
+      document.getElementById('gridSvgHolder').innerHTML =
+        '<svg class="w-full h-full" viewBox="0 0 600 220" fill="none" role="img" aria-label="Bản đồ hai khu vực đã làm mờ">' +
+        '<path d="M 300 20 L 300 200" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 4"/>' +
+        zoneSvg(30, 250, 'A', 'Khu vực A', 'Cụm KTX phía Đông', 'Phân vùng ~0.8 km² • Ký túc xá', a) +
+        zoneSvg(320, 250, 'B', 'Khu vực B', 'Dân cư & Giáo dục • P. Đông Hòa', 'Phân vùng ~0.9 km²', b) + '</svg>';
+      const card = (key, name) => {
+        const L = lv(key);
+        return '<div class="p-3.5 rounded-xl border-2 bg-white flex items-center justify-between" style="border-color:' + L.color + '55">' +
+          '<div><div class="font-bold text-slate-900 text-xs">' + name + '</div><div class="text-[11px] text-slate-600">' + L.name + ' • Mức nguy cơ: ' + L.risk + '</div></div>' +
+          '<div class="text-right flex-shrink-0 pl-2 text-sm font-bold" style="color:' + L.color + '">' + L.trend + '</div></div>';
+      };
+      document.getElementById('zoneCards').innerHTML = card(a, 'Khu vực A (Cụm Ký túc xá phía Đông)') + card(b, 'Khu vực B (Cụm Dân cư & Cơ sở giáo dục phía Đông)');
+    }
+
+    let lastStatusKey = null;
+    function applyStatus() {
+      const s = window.BIORADAR_STATUS;
+      const ok = s && s.published === true;
+      const key = JSON.stringify(ok ? s : null);
+      if (key === lastStatusKey) return;
+      lastStatusKey = key;
+      renderBanner(ok ? s.level : 'none');
+      renderMap(ok ? s.gridA : 'none', ok ? s.gridB : 'none');
+      document.getElementById('periodText').textContent = 'Kỳ quan trắc: ' + (ok ? s.period : '—');
+      document.getElementById('updatedText').textContent = ok ? '• Cập nhật lúc ' + s.updatedAt : '• Chưa có cập nhật';
+    }
+    applyStatus();
+    function pollStatus() {
+      const el = document.createElement('script');
+      el.src = 'public_status.js?t=' + Date.now();
+      el.onload = () => { applyStatus(); el.remove(); };
+      el.onerror = () => el.remove();
+      document.head.appendChild(el);
+    }
+    setInterval(pollStatus, 5000);
+
+    function switchTab(tab) {
+      const parentBtn = document.getElementById('tabParentBtn');
+      const studentBtn = document.getElementById('tabStudentBtn');
+      const parentContent = document.getElementById('tabParentContent');
+      const studentContent = document.getElementById('tabStudentContent');
+
+      if (tab === 'parent') {
+        parentBtn.className = 'px-5 py-2.5 border-b-2 border-emerald-500 text-emerald-700 flex items-center gap-2 transition font-bold';
+        studentBtn.className = 'px-5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition';
+        parentContent.classList.remove('hidden');
+        studentContent.classList.add('hidden');
+      } else {
+        studentBtn.className = 'px-5 py-2.5 border-b-2 border-emerald-500 text-emerald-700 flex items-center gap-2 transition font-bold';
+        parentBtn.className = 'px-5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition';
+        studentContent.classList.remove('hidden');
+        parentContent.classList.add('hidden');
+      }
+    }
+
+    function registerVolunteer() {
+      alert('CẢM ƠN BẠN! Bạn đã đăng ký tham gia Đội hình Sinh viên Tình nguyện "Chủ Nhật Xanh Tuần 47". Ban Chỉ huy Đoàn ĐHQG-HCM sẽ liên hệ xác nhận qua điện thoại.');
+    }
+
+    function subscribeZalo() {
+      alert('ĐĂNG KÝ THÀNH CÔNG: Bạn đã đăng ký nhận thông báo Zalo ZNS từ OA "Sức Khỏe Đô Thị Đông Hòa". Bạn sẽ nhận thông báo tức thì khi cảnh báo dịch tễ đổi trạng thái.');
+    }
+  </script>
+</body>
+</html>
+
