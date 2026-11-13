@@ -238,10 +238,10 @@
           <div class="space-y-2">
             <div class="flex items-center gap-2">
               <span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold uppercase">Chiến dịch Cộng đồng</span>
-              <span class="text-xs text-emerald-800 font-semibold">Hoạt động phòng dịch</span>
+              <span class="text-xs text-emerald-800 font-semibold">Chủ Nhật Xanh Tuần 47</span>
             </div>
             <h3 class="text-base font-extrabold text-emerald-950">
-              CAO ĐIỂM PHÒNG DỊCH – VỆ SINH MÔI TRƯỜNG TRƯỜNG MẦM NON
+              Chiến dịch "Chủ Nhật Xanh – Tẩy trùng môi trường trường mầm non"
             </h3>
             <p class="text-xs text-emerald-800 leading-relaxed">
               Đoàn Phường Đông Hòa và Đoàn Thanh niên ĐHQG-HCM tuyển <strong>40 tình nguyện viên sinh viên</strong> hỗ trợ nhà trường pha dung dịch khử khuẩn, lau rửa toàn bộ đồ chơi và sân chơi ngoài trời ngoài giờ học.
@@ -418,14 +418,158 @@
       }
     }
 
-    function registerVolunteer() {
-      window.open('https://docs.google.com/forms/d/e/1FAIpQLScdvlxTYjrbZGM5k3RBx09fi1fO43mluVYIj9IXDOr6_ET64A/viewform', '_blank', 'noopener,noreferrer');
+    // ===== Đăng ký tình nguyện viên ngay trên web =====
+    // Gửi thẳng tới biểu mẫu Google của Ban Tổ chức nên dữ liệu về đúng bảng tính của họ, không cần máy chủ riêng.
+    const VOL_URL = "https://docs.google.com/forms/d/e/1FAIpQLScdvlxTYjrbZGM5k3RBx09fi1fO43mluVYIj9IXDOr6_ET64A/formResponse";
+    const VOL_FIELDS = { name: 'entry.1729996906', school: 'entry.230873938', major: 'entry.1192688697',
+                         year: 'entry.394094809', email: 'entry.1009580645', phone: 'entry.673531150', note: 'entry.2057220745' };
+
+    function openVolunteer() {
+      document.getElementById('volForm').classList.remove('hidden');
+      document.getElementById('volDone').classList.add('hidden');
+      document.getElementById('volError').classList.add('hidden');
+      document.getElementById('volModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('vName').focus(), 50);
     }
+    function closeVolunteer() {
+      document.getElementById('volModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVolunteer(); });
+
+    function showVolError(msg) {
+      const el = document.getElementById('volError');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      return false;
+    }
+
+    async function submitVolunteer(ev) {
+      ev.preventDefault();
+      const v = id => document.getElementById(id).value.trim();
+      const phone = v('vPhone').replace(/[\s.\-]/g, '');
+      if (v('vTrap')) return false;                                   // chống bot
+      if (v('vName').length < 2) return showVolError('Vui lòng nhập họ và tên.');
+      if (!v('vSchool')) return showVolError('Vui lòng chọn trường.');
+      if (!v('vMajor')) return showVolError('Vui lòng nhập chuyên ngành (hoặc khoa).');
+      if (!v('vYear')) return showVolError('Vui lòng chọn sinh viên năm mấy.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('vEmail'))) return showVolError('Email chưa hợp lệ.');
+      if (!/^(0|\+84)\d{9,10}$/.test(phone)) return showVolError('Số điện thoại chưa hợp lệ (ví dụ 0912345678).');
+
+      const body = new URLSearchParams();
+      body.append(VOL_FIELDS.name, v('vName'));
+      body.append(VOL_FIELDS.school, v('vSchool'));
+      body.append(VOL_FIELDS.major, v('vMajor'));
+      body.append(VOL_FIELDS.year, v('vYear'));
+      body.append(VOL_FIELDS.email, v('vEmail'));
+      body.append(VOL_FIELDS.phone, phone);
+      if (v('vNote')) body.append(VOL_FIELDS.note, v('vNote'));
+      body.append('fvv', '1');
+      body.append('pageHistory', '0');
+
+      const btn = document.getElementById('volSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Đang gửi...';
+      document.getElementById('volError').classList.add('hidden');
+      try {
+        // no-cors: trình duyệt không đọc được phản hồi, nhưng dữ liệu vẫn được gửi đi.
+        await fetch(VOL_URL, { method: 'POST', mode: 'no-cors', body: body });
+        document.getElementById('volForm').classList.add('hidden');
+        document.getElementById('volDone').classList.remove('hidden');
+        document.getElementById('volForm').reset();
+      } catch (e) {
+        showVolError('Không gửi được. Vui lòng kiểm tra kết nối mạng và thử lại.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Gửi đăng ký';
+      }
+      return false;
+    }
+    function registerVolunteer() { openVolunteer(); }
 
     function subscribeZalo() {
       alert('ĐĂNG KÝ THÀNH CÔNG: Bạn đã đăng ký nhận thông báo Zalo ZNS từ OA "Sức Khỏe Đô Thị Đông Hòa". Bạn sẽ nhận thông báo tức thì khi cảnh báo dịch tễ đổi trạng thái.');
     }
   </script>
+
+  <!-- FORM ĐĂNG KÝ TÌNH NGUYỆN VIÊN (ngay trên web, dữ liệu gửi về bảng tính của Ban Tổ chức) -->
+  <div id="volModal" class="hidden fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-sm flex items-start sm:items-center justify-center p-3 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="volTitle">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 my-4">
+      <div class="p-5 border-b border-slate-100 flex items-start justify-between gap-3">
+        <div>
+          <div class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Chiến dịch cộng đồng • Tuần 47</div>
+          <h3 id="volTitle" class="text-base font-extrabold text-slate-900 leading-snug">Đăng ký Tình nguyện viên "Chủ Nhật Xanh – Tẩy trùng môi trường trường mầm non"</h3>
+          <p class="text-xs text-slate-500 mt-1">07:30 Chủ Nhật (16/11/2026) • Tuyển 40 sinh viên • Đoàn Phường Đông Hòa & Đoàn Thanh niên ĐHQG-HCM</p>
+        </div>
+        <button type="button" onclick="closeVolunteer()" class="text-slate-400 hover:text-slate-700 text-2xl leading-none px-2" aria-label="Đóng">×</button>
+      </div>
+
+      <form id="volForm" class="p-5 space-y-3 text-xs" onsubmit="return submitVolunteer(event)" novalidate>
+        <div>
+          <label for="vName" class="font-bold text-slate-700">Họ và tên <span class="text-rose-600">*</span></label>
+          <input id="vName" type="text" autocomplete="name" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+        </div>
+        <div>
+          <label for="vSchool" class="font-bold text-slate-700">Trường <span class="text-rose-600">*</span></label>
+          <select id="vSchool" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <option value="">-- Chọn trường --</option>
+            <option>Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM</option>
+            <option>Trường Đại học Bách khoa, ĐHQG-HCM</option>
+            <option>Trường Đại học Khoa học Xã hội và Nhân văn, ĐHQG-HCM</option>
+            <option>Trường Đại học Công nghệ Thông tin, ĐHQG-HCM</option>
+            <option>Trường Đại học Kinh tế - Luật, ĐHQG-HCM</option>
+            <option>Trường Đại học Quốc tế, ĐHQG-HCM</option>
+            <option>Trường Đại học Khoa học Sức khỏe, ĐHQG-HCM</option>
+            <option>Trường Đại học An Giang, ĐHQG-HCM</option>
+            <option>Trường khác</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="vMajor" class="font-bold text-slate-700">Chuyên ngành (hoặc Khoa) <span class="text-rose-600">*</span></label>
+            <input id="vMajor" type="text" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+          </div>
+          <div>
+            <label for="vYear" class="font-bold text-slate-700">Sinh viên năm <span class="text-rose-600">*</span></label>
+            <select id="vYear" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+              <option value="">-- Chọn --</option>
+              <option>Năm 1</option><option>Năm 2</option><option>Năm 3</option><option>Năm 4</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="vEmail" class="font-bold text-slate-700">Email <span class="text-rose-600">*</span></label>
+            <input id="vEmail" type="email" autocomplete="email" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+          </div>
+          <div>
+            <label for="vPhone" class="font-bold text-slate-700">Số điện thoại (có Zalo) <span class="text-rose-600">*</span></label>
+            <input id="vPhone" type="tel" autocomplete="tel" inputmode="tel" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+          </div>
+        </div>
+        <div>
+          <label for="vNote" class="font-bold text-slate-700">Câu hỏi hoặc lưu ý cho Ban Tổ chức (nếu có)</label>
+          <textarea id="vNote" rows="2" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"></textarea>
+        </div>
+        <input id="vTrap" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
+        <p class="text-[11px] text-slate-500 leading-relaxed">Thông tin chỉ dùng để Ban Tổ chức liên hệ và thêm bạn vào nhóm Zalo điều phối; không công khai trên trang này.</p>
+        <div id="volError" class="hidden p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 font-semibold"></div>
+        <div class="flex justify-end gap-2 pt-1">
+          <button type="button" onclick="closeVolunteer()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">Hủy</button>
+          <button id="volSubmit" type="submit" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-md shadow-emerald-600/20">Gửi đăng ký</button>
+        </div>
+      </form>
+
+      <div id="volDone" class="hidden p-8 text-center space-y-3">
+        <div class="mx-auto w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl">✓</div>
+        <h4 class="text-base font-extrabold text-slate-900">Đã gửi đăng ký!</h4>
+        <p class="text-xs text-slate-600 leading-relaxed">Cảm ơn bạn. Ban Tổ chức sẽ liên hệ qua số điện thoại/Zalo bạn đã cung cấp để xác nhận và thêm vào nhóm điều phối.</p>
+        <button type="button" onclick="closeVolunteer()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">Đóng</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
 
