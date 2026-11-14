@@ -123,104 +123,47 @@
       <div id="zoneCards" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- MODULE 3: DISINFECTION & CARE HANDBOOK (TABBED AUDIENCE) -->
+    <!-- MODULE 3: HƯỚNG DẪN PHÒNG BỆNH THEO KHU VỰC VÀ MỨC CẢNH BÁO -->
     <section class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
         <div class="flex items-center gap-2">
           <span class="px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 text-xs font-bold">MODULE 03</span>
-          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">CẨM NANG KHỬ KHUẨN VÀ PHÒNG BỆNH TẠI CHỖ</h2>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">HƯỚNG DẪN PHÒNG BỆNH THEO KHU VỰC CỦA BẠN</h2>
         </div>
-        <span class="text-xs text-slate-500 font-medium">Khoa học chính xác • Hành động đơn giản</span>
+        <span class="text-xs text-slate-500 font-medium">Chỉ thị từ Bộ Y tế & chính quyền địa phương</span>
       </div>
 
-      <!-- TABS SELECTOR -->
-      <div class="flex border-b border-slate-200 text-xs font-bold">
-        <button id="tabParentBtn" onclick="switchTab('parent')" class="px-5 py-2.5 border-b-2 border-emerald-500 text-emerald-700 flex items-center gap-2 transition">
-          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Tab 1: Dành cho Phụ Huynh có con nhỏ (Trường Mầm Non)
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Hệ thống kiểm tra định kỳ nước thải sinh hoạt chung của khu vực để phát hiện sớm dấu vết virus gây bệnh Tay chân miệng.
+        Hãy chọn khu vực bạn sinh sống để xem <strong>mức hiện tại</strong> và <strong>việc cần làm</strong>.
+      </p>
+
+      <div id="regionPicker" class="relative">
+        <label for="regionBtn" class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Khu vực của bạn</label>
+        <button id="regionBtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="regionPanel" onclick="toggleRegionPanel()"
+                class="mt-1 w-full flex items-center gap-3 px-4 py-3 rounded-2xl border-2 border-slate-200 bg-white hover:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 text-left transition">
+          <span id="regionBtnDot" class="w-3 h-3 rounded-full bg-slate-400 flex-shrink-0"></span>
+          <span class="flex-1 min-w-0">
+            <span id="regionBtnName" class="block text-sm font-extrabold text-slate-900 truncate"></span>
+            <span id="regionBtnSub" class="block text-[11px] text-slate-500 truncate"></span>
+          </span>
+          <span id="regionBtnLevel" class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 flex-shrink-0"></span>
+          <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <button id="tabStudentBtn" onclick="switchTab('student')" class="px-5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition">
-          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
-          Tab 2: Dành cho Sinh Viên Ký Túc Xá ĐHQG-HCM
-        </button>
-      </div>
-
-      <!-- TAB 1 CONTENT: PARENTS -->
-      <div id="tabParentContent" class="space-y-4">
-        <!-- Scientific Warning Box -->
-        <div class="p-4 rounded-2xl bg-amber-50 border-l-4 border-amber-500 text-xs space-y-1.5">
-          <div class="font-extrabold text-amber-900 flex items-center gap-2 text-sm">
-            <span>⚠️</span> HIỂU ĐÚNG VỀ VIRUS TAY CHÂN MIỆNG (EV71 / COXSACKIEVIRUS):
+        <div id="regionPanel" class="hidden absolute z-30 mt-2 w-full bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
+          <div class="p-3 border-b border-slate-100">
+            <input id="regionSearch" type="search" autocomplete="off" placeholder="Tìm khu vực..." aria-label="Tìm khu vực" oninput="renderRegionList(true)" onkeydown="regionKey(event)"
+                   class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <div id="regionCount" class="text-[11px] text-slate-400 mt-1.5"></div>
           </div>
-          <p class="text-amber-800 leading-relaxed font-medium">
-            Virus Tay chân miệng là virus <strong>không có màng bọc lipid (non-enveloped virus)</strong> nên <strong>dung dịch sát khuẩn chứa cồn kém hiệu quả hơn</strong> và không nên là biện pháp duy nhất. Biện pháp quan trọng nhất là <strong>rửa tay bằng xà phòng dưới vòi nước chảy ít nhất 30 giây</strong>, đặc biệt sau khi đi vệ sinh, thay tã và trước khi ăn. Với bề mặt đồ chơi và sàn nhà, nên dùng chất giải phóng Clo hoạt tính như <strong>nước Javel gia dụng</strong> hoặc <strong>Cloramin B</strong> theo hướng dẫn bên dưới.</p>
-        </div>
-
-        <!-- Recipe Calculator / Disinfection Guide -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
-            <div class="font-bold text-slate-900 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">1</span>
-              Công thức pha nước Javel gia dụng (hoặc Cloramin B)
-            </div>
-            <ul class="space-y-1.5 text-slate-700 pl-8 list-disc">
-              <li><strong>Nước Javel 5% thông thường:</strong> Pha 2 nắp chai (khoảng 40 mL) vào 5 lít nước sạch để đạt nồng độ clo hoạt tính 0.05% - 0.1%.</li>
-              <li><strong>Cloramin B bột:</strong> Pha 1 muỗng gạt (20g) vào 1 lít nước sạch (nồng độ 0.5% khử khuẩn môi trường có ca sốt).</li>
-              <li><strong>Quy trình:</strong> Lau sàn nhà, ngâm đồ chơi của trẻ trong <strong>10 đến 20 phút</strong>, sau đó rửa lại thật sạch bằng nước và lau khô trước khi cho trẻ chơi.</li>
-            </ul>
-          </div>
-
-          <!-- Red Flag Symptoms -->
-          <div class="p-4 rounded-2xl bg-rose-50 border-2 border-rose-300 space-y-2 text-xs">
-            <div class="font-extrabold text-rose-900 flex items-center gap-2 text-sm">
-              <span class="w-6 h-6 rounded-lg bg-rose-600 text-white flex items-center justify-center text-xs font-bold">!</span>
-              DẤU HIỆU CẢNH BÁO BỆNH CHUYỂN ĐỘ NẶNG (CẦN ĐẾN BỆNH VIỆN NGAY):
-            </div>
-            <div class="space-y-1.5 text-rose-800 font-semibold pl-8 list-disc">
-              <div class="flex items-center gap-1.5">
-                <span class="text-rose-600 font-black">•</span> Trẻ giật mình chới với khi thiu thiu ngủ (trên 2 lần / 30 phút).
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-rose-600 font-black">•</span> Sốt cao liên tục trên 39°C, không đáp ứng với thuốc hạ sốt paracetamol.
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-rose-600 font-black">•</span> Trẻ đi loạng choạng, run tay chân, thở mệt, nôn ói nhiều.
-              </div>
-            </div>
-            <div class="text-[11px] text-rose-700 italic pt-1 pl-8">
-              → Đưa trẻ đến ngay Khoa Cấp cứu Bệnh viện Nhi Đồng 1, Nhi Đồng 2 hoặc Nhi Đồng Thành phố.
-            </div>
-          </div>
+          <ul id="regionList" role="listbox" aria-label="Danh sách khu vực (A-Z)" class="max-h-64 overflow-y-auto py-1"></ul>
         </div>
       </div>
+      <div id="guidanceBody" class="space-y-4"></div>
 
-      <!-- TAB 2 CONTENT: STUDENTS (HIDDEN INITIALLY) -->
-      <div id="tabStudentContent" class="hidden space-y-4 text-xs">
-        <div class="p-4 rounded-2xl bg-sky-50 border-l-4 border-sky-500 space-y-2">
-          <div class="font-extrabold text-sky-900 text-sm flex items-center gap-2">
-            <span>🎓</span> LỜI KHUYÊN DÀNH CHO SINH VIÊN KÝ TÚC XÁ KHU B & ĐHQG-HCM:
-          </div>
-          <p class="text-sky-800 leading-relaxed font-medium">
-            Sinh viên là người trưởng thành thường chỉ là <strong>người mang trùng lành tính (asymptomatic carriers)</strong>, không phát bệnh nặng nhưng có thể vô tình đem virus từ nơi làm thêm, lớp dạy kèm về ký túc xá hoặc lây sang trẻ nhỏ tại gia đình học sinh.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-            <div class="font-bold text-slate-900">1. Vệ sinh bồn rửa và nhà vệ sinh chung phòng ở:</div>
-            <p class="text-slate-600 leading-relaxed">
-              Tránh để ẩm ướt tại khu vực bồn rửa tay tập thể. Định kỳ cuối tuần dùng nước tẩy rửa chuyên dụng lau sàn nhà vệ sinh và tay nắm cửa phòng.
-            </p>
-          </div>
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-            <div class="font-bold text-slate-900">2. Rửa tay sau khi đi gia sư / làm thêm nơi đông người:</div>
-            <p class="text-slate-600 leading-relaxed">
-              Ngay khi trở về phòng KTX sau buổi dạy kèm trẻ em hoặc phục vụ tại quán ăn, rửa tay thật kỹ bằng xà phòng dưới vòi nước chảy ít nhất 30 giây để ngăn phát tán mầm bệnh.
-            </p>
-          </div>
-        </div>
-      </div>
+      <p class="text-[11px] text-slate-400 italic">Bản demo: hiện chỉ hiển thị hướng dẫn cho các khu vực thuộc phạm vi đề tài. Mỗi địa phương sẽ có chỉ thị riêng do Bộ Y tế và chính quyền địa phương ban hành.</p>
     </section>
+
 
     <!-- MODULE 4: YOUTH ACTION & SCIENTIFIC TRANSPARENCY -->
     <section class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft space-y-5">
@@ -282,6 +225,19 @@
       </div>
     </section>
 
+
+    <!-- MODULE 5: VIDEO DEMO HỆ THỐNG (cấu hình trong tệp demo_video.js) -->
+    <section id="demoVideoSection" class="bg-white rounded-3xl border border-slate-200 p-6 shadow-soft space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold">MODULE 05</span>
+          <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">VIDEO DEMO HỆ THỐNG BIO-RADAR</h2>
+        </div>
+        <span class="text-xs text-slate-500 font-medium">Xem hệ thống hoạt động từ trạm lấy mẫu đến thông báo cộng đồng</span>
+      </div>
+      <div id="demoVideoBox"></div>
+    </section>
+
   </main>
 
   <!-- LEGAL & MEDICAL DISCLAIMER FOOTER (EXACT MANDATED WORDING) -->
@@ -300,6 +256,7 @@
   </footer>
 
   <script src="public_status.js"></script>
+  <script src="demo_video.js"></script>
   <script>
     // ===== Liên kết với ứng dụng Qt =====
     // Qt ghi file public_status.js (window.BIORADAR_STATUS) mỗi khi Cán bộ Y tế công bố thành công.
@@ -377,6 +334,230 @@
       document.getElementById('zoneCards').innerHTML = card(a, 'Khu vực A (Cụm Ký túc xá phía Đông)') + card(b, 'Khu vực B (Cụm Dân cư & Cơ sở giáo dục phía Đông)');
     }
 
+    // ===== Video demo hệ thống =====
+    // Cấu hình ở tệp demo_video.js (cùng thư mục với trang), không cần sửa mã trang:
+    //   window.BIORADAR_DEMO_VIDEO = { youtube: "https://youtu.be/XXXXXXXXXXX", file: "", title: "..." };
+    // Dùng một trong hai: `youtube` (link hoặc mã video) hoặc `file` (ví dụ "demo.mp4" đặt cạnh index.html).
+    function youtubeId(v) {
+      v = String(v || '').trim();
+      if (/^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+      const m = v.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : '';
+    }
+    function safeVideoFile(f) {
+      f = String(f || '').trim();
+      return /^(https:\/\/|\.?\/?)[\w\-./%]+\.(mp4|webm)$/i.test(f) && !f.includes('..') ? f : '';
+    }
+    function playYoutube(id) {
+      const box = document.getElementById('demoVideoFrame');
+      box.innerHTML = '<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" title="Video demo hệ thống BIO-RADAR" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="border:0"></iframe>';
+    }
+    function renderDemoVideo() {
+      const cfg = window.BIORADAR_DEMO_VIDEO || {};
+      const box = document.getElementById('demoVideoBox');
+      const title = esc(cfg.title || 'Video demo hệ thống BIO-RADAR');
+      const yt = youtubeId(cfg.youtube), file = safeVideoFile(cfg.file);
+      if (yt) {
+        box.innerHTML = '<div id="demoVideoFrame" class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-900">' +
+          '<button type="button" onclick="playYoutube(\'' + yt + '\')" aria-label="Phát video: ' + title + '" class="absolute inset-0 w-full h-full flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-slate-800 via-slate-900 to-sky-900 hover:from-slate-700 transition">' +
+          '<span class="w-16 h-16 rounded-full bg-white/95 text-rose-600 flex items-center justify-center shadow-lg"><svg class="w-8 h-8 ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>' +
+          '<span class="text-white text-sm font-bold px-4 text-center">' + title + '</span></button></div>';
+      } else if (file) {
+        box.innerHTML = '<video controls playsinline preload="metadata" class="w-full aspect-video rounded-2xl bg-black" aria-label="' + title + '"><source src="' + esc(file) + '">' +
+          'Trình duyệt của bạn không hỗ trợ phát video.</video>';
+      } else {
+        box.innerHTML = '<div class="w-full aspect-video rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 flex flex-col items-center justify-center gap-2 text-center px-4">' +
+          '<span class="w-14 h-14 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center"><svg class="w-7 h-7 ml-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>' +
+          '<span class="text-sm font-bold text-slate-700">Video demo sẽ được cập nhật sớm</span>' +
+          '<span class="text-xs text-slate-500">Vui lòng quay lại sau.</span></div>';
+      }
+    }
+    renderDemoVideo();
+
+    // ===== Hướng dẫn theo khu vực và mức cảnh báo =====
+    // Nội dung do Bộ Y tế / chính quyền địa phương ban hành. Mỗi khu vực có thể có bộ chỉ thị riêng:
+    // thêm thuộc tính `guidance: { green: {...}, yellow: {...}, orange: {...} }` vào khu vực đó
+    // để thay thế bộ chung bên dưới. Khu vực có trẻ em (`hasChildren`) hiển thị thêm dấu hiệu nặng.
+    const GUIDANCE = {
+      green: {
+        title: 'MỨC XANH – BÌNH THƯỜNG (Giám sát định kỳ)',
+        situation: 'Chưa phát hiện dấu vết virus Tay chân miệng trong mẫu nước thải ở kỳ kiểm tra hiện tại.',
+        actions: [
+          'Giữ thói quen rửa tay bằng xà phòng và nước sạch trước khi ăn, sau khi đi vệ sinh và sau khi thay tã cho trẻ.',
+          'Lau dọn phòng ở, sàn nhà và ngâm rửa đồ chơi của trẻ định kỳ hàng tuần.'
+        ]
+      },
+      yellow: {
+        title: 'MỨC VÀNG – LƯU Ý TĂNG CƯỜNG VỆ SINH',
+        situation: 'Đã phát hiện dấu vết virus trong nước thải khu vực, nhưng chưa ghi nhận xu hướng tăng liên tục.',
+        actions: [
+          'Rửa tay bằng xà phòng dưới vòi nước chảy ít nhất 30 giây. (Lưu ý: cồn rửa tay khô kém hiệu quả với virus Tay chân miệng nên không thay thế được việc rửa tay bằng xà phòng.)',
+          'Lau rửa sàn nhà, tay nắm cửa, bàn học và đồ chơi hàng ngày bằng xà phòng hoặc dung dịch khử khuẩn thông thường (0,5% Clo hoạt tính).',
+          'Không dùng chung khăn mặt, ly uống nước, bàn chải đánh răng.'
+        ]
+      },
+      orange: {
+        title: 'MỨC CAM – CẢNH GIÁC CAO & PHÒNG DỊCH CHỦ ĐỘNG',
+        situation: 'Dấu vết virus trong nước thải tăng rõ rệt qua nhiều kỳ kiểm tra liên tiếp.',
+        actions: [
+          'Khử khuẩn hàng ngày toàn bộ sàn nhà, khu vệ sinh, bề mặt hay chạm tay và ngâm rửa đồ chơi bằng dung dịch 0,5% Clo hoạt tính (như bột Cloramin B hoặc nước Javel pha theo đúng hướng dẫn trên nhãn).',
+          'Hạn chế tiếp xúc gần với người đang sốt, loét miệng, nổi bóng nước ở lòng bàn tay hoặc bàn chân.',
+          'Nếu trong nhà có người mắc bệnh: cách ly tại nhà hoặc cơ sở y tế ít nhất 10 ngày; khử khuẩn kỹ phân, chất nôn và đồ dùng của người bệnh bằng dung dịch nồng độ cao (2% Clo hoạt tính) theo hướng dẫn của Trạm Y tế.'
+        ]
+      }
+    };
+    const RED_FLAGS = [
+      'Sốt cao trên 39°C khó hạ hoặc sốt kéo dài hơn 48 giờ.',
+      'Giật mình chới với (đặc biệt lúc trẻ vừa thiu thiu ngủ), bứt rứt, quấy khóc vô cớ, lừ đừ hoặc ngủ gà.',
+      'Nôn ói nhiều, run tay chân, đi loạng choạng, yếu liệt tay chân, da nổi vân tím hoặc thở mệt, thở nhanh.'
+    ];
+    const REGIONS = {
+      A: { name: 'Khu vực A', sub: 'Cụm ký túc xá phía Đông', key: 'gridA', hasChildren: false,
+           extra: ['Sinh viên đi gia sư, làm thêm nơi đông người: rửa tay bằng xà phòng dưới vòi nước chảy ít nhất 30 giây ngay khi về phòng.',
+                   'Giữ khu bồn rửa tay và nhà vệ sinh chung khô ráo, vệ sinh định kỳ cuối tuần.'] },
+      B: { name: 'Khu vực B', sub: 'Dân cư & Giáo dục • P. Đông Hòa', key: 'gridB', hasChildren: true, extra: [] }
+    };
+    const LV_STYLE = {
+      green:  { card: 'bg-emerald-50 border-emerald-300', head: 'text-emerald-900', dot: 'bg-emerald-500', num: 'bg-emerald-600' },
+      yellow: { card: 'bg-amber-50 border-amber-400',     head: 'text-amber-900',   dot: 'bg-amber-500',   num: 'bg-amber-600' },
+      orange: { card: 'bg-orange-50 border-orange-400',   head: 'text-orange-900',  dot: 'bg-orange-500',  num: 'bg-orange-600' }
+    };
+
+    let selectedRegion = 'B';
+    try { const r = localStorage.getItem('bioradar_region'); if (r && REGIONS[r]) selectedRegion = r; } catch (e) {}
+
+    function selectRegion(id) {
+      selectedRegion = id;
+      toggleRegionPanel(false);
+      try { localStorage.setItem('bioradar_region', id); } catch (e) {}
+      renderGuidance(window.BIORADAR_STATUS);
+    }
+
+    function esc(t) { return String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+    // ---- Ô chọn khu vực: danh sách A-Z, có tìm kiếm (không phân biệt dấu) ----
+    let regionActive = 0;
+    const LV_LABEL = { green: 'Mức Xanh', yellow: 'Mức Vàng', orange: 'Mức Cam', none: 'Chưa công bố' };
+    const LV_DOT = { green: 'bg-emerald-500', yellow: 'bg-amber-500', orange: 'bg-orange-500', none: 'bg-slate-400' };
+    const LV_PILL = { green: 'bg-emerald-100 text-emerald-800', yellow: 'bg-amber-100 text-amber-900', orange: 'bg-orange-100 text-orange-900', none: 'bg-slate-100 text-slate-700' };
+
+    function fold(t) { return String(t).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase(); }
+    // Sau này có thể nhận mức theo từng khu vực: s.regions = { ID: 'yellow', ... }
+    function levelOf(s, id) {
+      if (!(s && s.published === true)) return 'none';
+      return (s.regions && s.regions[id]) || s[REGIONS[id].key] || 'none';
+    }
+    function sortedRegions(filter) {
+      const q = fold(filter || '').trim();
+      return Object.keys(REGIONS)
+        .filter(id => !q || fold(REGIONS[id].name + ' ' + REGIONS[id].sub).includes(q))
+        .sort((a, b) => REGIONS[a].name.localeCompare(REGIONS[b].name, 'vi', { sensitivity: 'base', numeric: true }));
+    }
+
+    function renderRegionButton() {
+      const s = window.BIORADAR_STATUS, R = REGIONS[selectedRegion], lv = levelOf(s, selectedRegion);
+      document.getElementById('regionBtnName').textContent = R.name;
+      document.getElementById('regionBtnSub').textContent = R.sub;
+      document.getElementById('regionBtnDot').className = 'w-3 h-3 rounded-full flex-shrink-0 ' + LV_DOT[lv];
+      const pill = document.getElementById('regionBtnLevel');
+      pill.className = 'text-[11px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ' + LV_PILL[lv];
+      pill.textContent = LV_LABEL[lv];
+    }
+
+    function renderRegionList(resetActive) {
+      const s = window.BIORADAR_STATUS;
+      const ids = sortedRegions(document.getElementById('regionSearch').value);
+      if (resetActive) regionActive = 0;
+      regionActive = Math.min(regionActive, Math.max(ids.length - 1, 0));
+      document.getElementById('regionCount').textContent = ids.length + ' / ' + Object.keys(REGIONS).length + ' khu vực • sắp xếp A-Z';
+      const showLetters = Object.keys(REGIONS).length > 6;
+      let lastLetter = '', html = '';
+      ids.forEach((id, i) => {
+        const R = REGIONS[id], lv = levelOf(s, id);
+        const letter = fold(R.name).charAt(0).toUpperCase();
+        if (showLetters && letter !== lastLetter) {
+          html += '<li role="presentation" class="px-4 pt-2 pb-0.5 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">' + esc(letter) + '</li>';
+          lastLetter = letter;
+        }
+        const sel = id === selectedRegion, act = i === regionActive;
+        html += '<li role="option" id="regOpt_' + esc(id) + '" aria-selected="' + sel + '" data-id="' + esc(id) + '" onclick="selectRegion(\'' + esc(id) + '\')" ' +
+          'class="flex items-center gap-3 px-4 py-2.5 cursor-pointer ' + (act ? 'bg-emerald-50' : 'hover:bg-slate-50') + '">' +
+          '<span class="w-2.5 h-2.5 rounded-full flex-shrink-0 ' + LV_DOT[lv] + '"></span>' +
+          '<span class="flex-1 min-w-0"><span class="block text-sm font-bold text-slate-900 truncate">' + esc(R.name) + '</span><span class="block text-[11px] text-slate-500 truncate">' + esc(R.sub) + '</span></span>' +
+          '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full ' + LV_PILL[lv] + '">' + LV_LABEL[lv] + '</span>' +
+          (sel ? '<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>' : '') +
+          '</li>';
+      });
+      if (!ids.length) html = '<li class="px-4 py-6 text-center text-xs text-slate-500">Không tìm thấy khu vực phù hợp.</li>';
+      document.getElementById('regionList').innerHTML = html;
+      const act = document.querySelector('#regionList [role=option]:nth-of-type(1)');
+      const el = ids.length ? document.getElementById('regOpt_' + ids[regionActive]) : null;
+      if (el) el.scrollIntoView({ block: 'nearest' });
+    }
+
+    function toggleRegionPanel(force) {
+      const panel = document.getElementById('regionPanel');
+      const open = force === undefined ? panel.classList.contains('hidden') : force;
+      panel.classList.toggle('hidden', !open);
+      document.getElementById('regionBtn').setAttribute('aria-expanded', String(open));
+      if (open) {
+        document.getElementById('regionSearch').value = '';
+        regionActive = Math.max(sortedRegions('').indexOf(selectedRegion), 0);
+        renderRegionList(false);
+        setTimeout(() => document.getElementById('regionSearch').focus(), 0);
+      }
+    }
+
+    function regionKey(e) {
+      const ids = sortedRegions(document.getElementById('regionSearch').value);
+      if (e.key === 'ArrowDown') { e.preventDefault(); regionActive = Math.min(regionActive + 1, ids.length - 1); renderRegionList(false); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); regionActive = Math.max(regionActive - 1, 0); renderRegionList(false); }
+      else if (e.key === 'Enter') { e.preventDefault(); if (ids[regionActive]) selectRegion(ids[regionActive]); }
+      else if (e.key === 'Escape') { e.preventDefault(); toggleRegionPanel(false); document.getElementById('regionBtn').focus(); }
+    }
+    document.addEventListener('click', e => {
+      const pk = document.getElementById('regionPicker');
+      if (pk && !pk.contains(e.target)) toggleRegionPanel(false);
+    });
+
+    function renderGuidance(s) {
+      const ok = s && s.published === true;
+      renderRegionButton();
+      if (!document.getElementById('regionPanel').classList.contains('hidden')) renderRegionList(false);
+
+      const R = REGIONS[selectedRegion];
+      const body = document.getElementById('guidanceBody');
+      if (!ok) {
+        body.innerHTML = '<div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed">' +
+          '<div class="font-bold text-slate-900 mb-1">' + esc(R.name) + ' • Chưa có công bố mới</div>' +
+          'Hướng dẫn theo mức sẽ hiển thị sau khi Trạm Y tế xác nhận và công bố. Trong lúc chờ, hãy giữ thói quen rửa tay bằng xà phòng dưới vòi nước chảy.</div>';
+        return;
+      }
+      const lvl = levelOf(s, selectedRegion);
+      const g = (R.guidance && R.guidance[lvl]) || GUIDANCE[lvl];
+      const st = LV_STYLE[lvl];
+      if (!g || !st) { body.innerHTML = ''; return; }
+      let html = '<div class="p-4 rounded-2xl border-2 ' + st.card + ' space-y-3 text-xs">' +
+        '<div class="flex flex-wrap items-center justify-between gap-2"><div class="font-extrabold text-sm ' + st.head + '">' + esc(g.title) + '</div>' +
+        '<span class="text-[10px] font-extrabold bg-white/80 border border-slate-300 text-slate-800 px-2 py-0.5 rounded">' + esc(R.name) + ' • HIỆN TẠI</span></div>' +
+        '<div><div class="font-bold text-slate-900">Tình hình</div><p class="text-slate-700 leading-relaxed">' + esc(g.situation) + '</p></div>' +
+        '<div><div class="font-bold text-slate-900 mb-1">Việc cần làm</div><ul class="space-y-2">' +
+        g.actions.map((a, i) => '<li class="flex gap-2.5"><span class="flex-shrink-0 w-5 h-5 rounded-md ' + st.num + ' text-white flex items-center justify-center text-[11px] font-bold">' + (i + 1) + '</span><span class="text-slate-800 leading-relaxed">' + esc(a) + '</span></li>').join('') +
+        '</ul></div></div>';
+
+      if (R.extra && R.extra.length) {
+        html += '<div class="p-4 rounded-2xl bg-sky-50 border-l-4 border-sky-500 text-xs space-y-1.5"><div class="font-extrabold text-sky-900">Lời khuyên riêng cho sinh viên ký túc xá</div><ul class="list-disc pl-5 text-sky-900 leading-relaxed space-y-1">' +
+          R.extra.map(a => '<li>' + esc(a) + '</li>').join('') + '</ul></div>';
+      }
+      if (R.hasChildren) {
+        html += '<div class="p-4 rounded-2xl bg-rose-50 border-2 border-rose-300 text-xs space-y-2">' +
+          '<div class="font-extrabold text-rose-900 text-sm flex items-center gap-2"><span class="w-6 h-6 rounded-lg bg-rose-600 text-white flex items-center justify-center text-xs font-bold">!</span>ĐƯA TRẺ ĐI KHÁM NGAY KHI CÓ 1 TRONG CÁC DẤU HIỆU NẶNG SAU:</div>' +
+          '<ul class="space-y-1.5 text-rose-900 font-semibold">' + RED_FLAGS.map(a => '<li class="flex gap-2"><span class="text-rose-600 font-black">•</span><span>' + esc(a) + '</span></li>').join('') + '</ul></div>';
+      }
+      body.innerHTML = html;
+    }
+
     let lastStatusKey = null;
     function applyStatus() {
       const s = window.BIORADAR_STATUS;
@@ -386,6 +567,7 @@
       lastStatusKey = key;
       renderBanner(ok ? s.level : 'none');
       renderMap(ok ? s.gridA : 'none', ok ? s.gridB : 'none');
+      renderGuidance(ok ? s : null);
       document.getElementById('periodText').textContent = 'Kỳ quan trắc: ' + (ok ? s.period : '—');
       document.getElementById('updatedText').textContent = ok ? '• Cập nhật lúc ' + s.updatedAt : '• Chưa có cập nhật';
     }
@@ -399,93 +581,6 @@
     }
     setInterval(pollStatus, 5000);
 
-    function switchTab(tab) {
-      const parentBtn = document.getElementById('tabParentBtn');
-      const studentBtn = document.getElementById('tabStudentBtn');
-      const parentContent = document.getElementById('tabParentContent');
-      const studentContent = document.getElementById('tabStudentContent');
-
-      if (tab === 'parent') {
-        parentBtn.className = 'px-5 py-2.5 border-b-2 border-emerald-500 text-emerald-700 flex items-center gap-2 transition font-bold';
-        studentBtn.className = 'px-5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition';
-        parentContent.classList.remove('hidden');
-        studentContent.classList.add('hidden');
-      } else {
-        studentBtn.className = 'px-5 py-2.5 border-b-2 border-emerald-500 text-emerald-700 flex items-center gap-2 transition font-bold';
-        parentBtn.className = 'px-5 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 transition';
-        studentContent.classList.remove('hidden');
-        parentContent.classList.add('hidden');
-      }
-    }
-
-    // ===== Đăng ký tình nguyện viên ngay trên web =====
-    // Gửi thẳng tới biểu mẫu Google của Ban Tổ chức nên dữ liệu về đúng bảng tính của họ, không cần máy chủ riêng.
-    const VOL_URL = "https://docs.google.com/forms/d/e/1FAIpQLScdvlxTYjrbZGM5k3RBx09fi1fO43mluVYIj9IXDOr6_ET64A/formResponse";
-    const VOL_FIELDS = { name: 'entry.1729996906', school: 'entry.230873938', major: 'entry.1192688697',
-                         year: 'entry.394094809', email: 'entry.1009580645', phone: 'entry.673531150', note: 'entry.2057220745' };
-
-    function openVolunteer() {
-      document.getElementById('volForm').classList.remove('hidden');
-      document.getElementById('volDone').classList.add('hidden');
-      document.getElementById('volError').classList.add('hidden');
-      document.getElementById('volModal').classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => document.getElementById('vName').focus(), 50);
-    }
-    function closeVolunteer() {
-      document.getElementById('volModal').classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVolunteer(); });
-
-    function showVolError(msg) {
-      const el = document.getElementById('volError');
-      el.textContent = msg;
-      el.classList.remove('hidden');
-      return false;
-    }
-
-    async function submitVolunteer(ev) {
-      ev.preventDefault();
-      const v = id => document.getElementById(id).value.trim();
-      const phone = v('vPhone').replace(/[\s.\-]/g, '');
-      if (v('vTrap')) return false;                                   // chống bot
-      if (v('vName').length < 2) return showVolError('Vui lòng nhập họ và tên.');
-      if (!v('vSchool')) return showVolError('Vui lòng chọn trường.');
-      if (!v('vMajor')) return showVolError('Vui lòng nhập chuyên ngành (hoặc khoa).');
-      if (!v('vYear')) return showVolError('Vui lòng chọn sinh viên năm mấy.');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('vEmail'))) return showVolError('Email chưa hợp lệ.');
-      if (!/^(0|\+84)\d{9,10}$/.test(phone)) return showVolError('Số điện thoại chưa hợp lệ (ví dụ 0912345678).');
-
-      const body = new URLSearchParams();
-      body.append(VOL_FIELDS.name, v('vName'));
-      body.append(VOL_FIELDS.school, v('vSchool'));
-      body.append(VOL_FIELDS.major, v('vMajor'));
-      body.append(VOL_FIELDS.year, v('vYear'));
-      body.append(VOL_FIELDS.email, v('vEmail'));
-      body.append(VOL_FIELDS.phone, phone);
-      if (v('vNote')) body.append(VOL_FIELDS.note, v('vNote'));
-      body.append('fvv', '1');
-      body.append('pageHistory', '0');
-
-      const btn = document.getElementById('volSubmit');
-      btn.disabled = true;
-      btn.textContent = 'Đang gửi...';
-      document.getElementById('volError').classList.add('hidden');
-      try {
-        // no-cors: trình duyệt không đọc được phản hồi, nhưng dữ liệu vẫn được gửi đi.
-        await fetch(VOL_URL, { method: 'POST', mode: 'no-cors', body: body });
-        document.getElementById('volForm').classList.add('hidden');
-        document.getElementById('volDone').classList.remove('hidden');
-        document.getElementById('volForm').reset();
-      } catch (e) {
-        showVolError('Không gửi được. Vui lòng kiểm tra kết nối mạng và thử lại.');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Gửi đăng ký';
-      }
-      return false;
-    }
     function registerVolunteer() { openVolunteer(); }
 
     function subscribeZalo() {
