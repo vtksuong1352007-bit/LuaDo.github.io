@@ -581,6 +581,75 @@
     }
     setInterval(pollStatus, 5000);
 
+    // ===== Đăng ký tình nguyện viên ngay trên web =====
+    // Gửi thẳng tới biểu mẫu Google của Ban Tổ chức nên dữ liệu về đúng bảng tính của họ, không cần máy chủ riêng.
+    const VOL_URL = "https://docs.google.com/forms/d/e/1FAIpQLScdvlxTYjrbZGM5k3RBx09fi1fO43mluVYIj9IXDOr6_ET64A/formResponse";
+    const VOL_FIELDS = { name: 'entry.1729996906', school: 'entry.230873938', major: 'entry.1192688697',
+                         year: 'entry.394094809', email: 'entry.1009580645', phone: 'entry.673531150', note: 'entry.2057220745' };
+
+    function openVolunteer() {
+      document.getElementById('volForm').classList.remove('hidden');
+      document.getElementById('volDone').classList.add('hidden');
+      document.getElementById('volError').classList.add('hidden');
+      document.getElementById('volModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('vName').focus(), 50);
+    }
+    function closeVolunteer() {
+      document.getElementById('volModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVolunteer(); });
+
+    function showVolError(msg) {
+      const el = document.getElementById('volError');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      return false;
+    }
+
+    async function submitVolunteer(ev) {
+      ev.preventDefault();
+      const v = id => document.getElementById(id).value.trim();
+      const phone = v('vPhone').replace(/[\s.\-]/g, '');
+      if (v('vTrap')) return false;                                   // chống bot
+      if (v('vName').length < 2) return showVolError('Vui lòng nhập họ và tên.');
+      if (!v('vSchool')) return showVolError('Vui lòng chọn trường.');
+      if (!v('vMajor')) return showVolError('Vui lòng nhập chuyên ngành (hoặc khoa).');
+      if (!v('vYear')) return showVolError('Vui lòng chọn sinh viên năm mấy.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('vEmail'))) return showVolError('Email chưa hợp lệ.');
+      if (!/^(0|\+84)\d{9,10}$/.test(phone)) return showVolError('Số điện thoại chưa hợp lệ (ví dụ 0912345678).');
+
+      const body = new URLSearchParams();
+      body.append(VOL_FIELDS.name, v('vName'));
+      body.append(VOL_FIELDS.school, v('vSchool'));
+      body.append(VOL_FIELDS.major, v('vMajor'));
+      body.append(VOL_FIELDS.year, v('vYear'));
+      body.append(VOL_FIELDS.email, v('vEmail'));
+      body.append(VOL_FIELDS.phone, phone);
+      if (v('vNote')) body.append(VOL_FIELDS.note, v('vNote'));
+      body.append('fvv', '1');
+      body.append('pageHistory', '0');
+
+      const btn = document.getElementById('volSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Đang gửi...';
+      document.getElementById('volError').classList.add('hidden');
+      try {
+        // no-cors: trình duyệt không đọc được phản hồi, nhưng dữ liệu vẫn được gửi đi.
+        await fetch(VOL_URL, { method: 'POST', mode: 'no-cors', body: body });
+        document.getElementById('volForm').classList.add('hidden');
+        document.getElementById('volDone').classList.remove('hidden');
+        document.getElementById('volForm').reset();
+      } catch (e) {
+        showVolError('Không gửi được. Vui lòng kiểm tra kết nối mạng và thử lại.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Gửi đăng ký';
+      }
+      return false;
+    }
+
     function registerVolunteer() { openVolunteer(); }
 
     function subscribeZalo() {
